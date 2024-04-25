@@ -1,0 +1,117 @@
+class Autor:
+    def __init__(self, nome, sobrenome):
+        self.nome = nome
+        self.sobrenome = sobrenome
+        
+
+class Editora:
+    def __init__(self, razaoSocial, cidade, estado,):
+        self.razaoSocial = razaoSocial
+        self.cidade = cidade
+        self.estado = estado
+        #Lista de livros
+        self.consultas_livros = []
+
+    def consulta_livros(self, Livro):
+        for c in self.consultas_livros:
+            #Cadastro: Cadastrar novos livros, editoras e autores. append
+            #Gerenciamento de autores: Associar um autor a um livro. titulo e editora - se não forem igual então não é do autor.
+            #Consulta: Consultar informações sobre livros, editoras e autores, como título do livro, nome da editora, nome do autor, etc. Criar uma biblioteca
+            #Filtragem: Filtrar livros por editora, autor, ano de publicação, etc.
+            if c.nome == consulta.nome and c.razaoSocial == consulta.razaoSocial:
+                print(f" ????? Livr: {self.nome} Livro não encontrado Biblioteca {consulta.data} às {consulta.hora}.")
+                return False
+
+
+class Livro:
+    def __init__(self, titulo, ano , editora, autor):
+        self.titulo = titulo
+        self.ano  = ano 
+        self.editora = editora
+        self.autor = autor
+
+    def __str__(self):
+        return f"{self.titulo}, {self.ano}, {self.editora}, {self.autor}"
+
+
+
+_______
+
+
+Crie um sistema em Python que modele o processo de marcação de consultas em uma clínica veterinária. O sistema deve envolver a associação entre três classes principais: Pet, Consulta e Veterinário.
+1. A classe Pet deve conter os seguintes atributos: nome, espécie, idade e dono. Além disso, deve possuir um método __str__ que retorna uma string contendo as informações do pet.
+2. A classe Veterinário deve conter os atributos: nome, especialidade (por exemplo, "clínico geral", "ortopedista", etc.) e uma lista de consultas marcadas. Inclua um método agendar_consulta que recebe um objeto Consulta e o adiciona à lista de consultas marcadas, verificando se não há conflito de horários.
+3. A classe Consulta deve ter os atributos: pet, que é um objeto da classe Pet; veterinário, que é um objeto da classe Veterinário; data, hora e motivo. Implemente um método __str__ que retorna uma descrição da consulta, incluindo o nome do pet, o nome do veterinário, a data, a hora e o motivo.
+4. Implemente um mecanismo que evite a marcação de duas consultas no mesmo horário com o mesmo veterinário.
+5. Por fim, crie um pequeno script que instancia alguns objetos Pet e Veterinário, e usa esses objetos para marcar consultas, demonstrando a associação entre as classes e a funcionalidade de agendamento de consultas sem conflitos.
+Este exercício prático tem como objetivo fortalecer a compreensão sobre classes, objetos, associação entre classes e gerenciamento de listas em Python.
+Item
+Solução Exercício Pet x Consulta x Veterinário
+Para resolver o exercício proposto, vamos definir as três classes Pet, Veterinário e Consulta, implementando os requisitos descritos.
+
+class Pet:
+    def __init__(self, nome, especie, idade, dono):
+        self.nome = nome
+        self.especie = especie
+        self.idade = idade
+        self.dono = dono
+
+    def __str__(self):
+        return f"{self.nome}, {self.especie}, {self.idade} anos, dono(a): {self.dono}"
+
+class Veterinario:
+    def __init__(self, nome, especialidade):
+        self.nome = nome
+        self.especialidade = especialidade
+        #Lista de Consultas
+        self.consultas_marcadas = []
+
+    def agendar_consulta(self, consulta):
+        for c in self.consultas_marcadas:
+            if c.data == consulta.data and c.hora == consulta.hora:
+                print(f" ????? Conflito de horário: {self.nome} já possui uma consulta marcada para {consulta.data} às {consulta.hora}.")
+                return False
+        self.consultas_marcadas.append(consulta)
+        for con in  self.consultas_marcadas:
+            print(f'* {con.data} -  {con.hora} - {con.motivo} - {con.veterinario.nome} - {con.pet.nome}' )
+        return True
+
+    def __str__(self):
+        return f"{self.nome}, {self.especialidade}"
+
+class Consulta:
+    def __init__(self, pet, veterinario, data, hora, motivo):
+        self.pet = pet
+        self.veterinario = veterinario
+        self.data = data
+        self.hora = hora
+        self.motivo = motivo
+        if veterinario.agendar_consulta(self):
+            print(f"Consulta agendada para {pet.nome} com {veterinario.nome} em {data} às {hora}.")
+
+    def __str__(self):
+        return f"\n==>Consulta de {self.pet.nome} com {self.veterinario.nome} em {self.data} às {self.hora} - Motivo: {self.motivo}"
+
+# Demonstração do sistema
+if __name__ == "__main__":
+    # Criação de pets e veterinários
+    pet1 = Pet("Rex", "Cachorro", 5, "Ana")
+    pet2 = Pet("Miau", "Gato", 3, "Bruno")
+    vet1 = Veterinario("Dra. Silva", "Clínico Geral")
+    vet2 = Veterinario("Dr. Pereira", "Ortopedista")
+
+    # Agendamento de consultas
+    consulta1 = Consulta(pet1, vet1, "2024-04-12", "14:00", "Check-up anual")
+    consulta2 = Consulta(pet2, vet1, "2024-04-12", "14:00", "Vacinação")
+    consulta3 = Consulta(pet2, vet2, "2024-04-13", "16:00", "Consulta ortopédica")
+
+    # Tente agendar uma consulta em um horário conflitante para ver a mensagem de erro
+    consulta4 = Consulta(pet1, vet1, "2024-04-12", "14:00", "Consulta de emergência")
+    # Agendamento de consultas
+    consulta1 = Consulta(pet1, vet1, "2024-04-12", "14:00", "Check-up anual")
+    consulta2 = Consulta(pet2, vet1, "2024-04-12", "14:00", "Vacinação")
+    consulta3 = Consulta(pet2, vet2, "2024-04-13", "16:00", "Consulta ortopédica")
+    # Tente agendar uma consulta em um horário conflitante para ver a mensagem de erro
+    consulta4 = Consulta(pet1, vet1, "2024-04-12", "14:00", "Consulta de emergência")
+
+Este script define as classes conforme as especificações e demonstra a criação de objetos e o agendamento de consultas, incluindo um caso de teste onde há uma tentativa de agendar uma consulta em um horário já ocupado, para mostrar o funcionamento do mecanismo de prevenção de conflitos.
